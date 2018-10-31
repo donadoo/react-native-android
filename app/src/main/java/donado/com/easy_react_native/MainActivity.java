@@ -43,7 +43,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (requestCode == OVERLAY_PERMISSION_REQ_CODE) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (!Settings.canDrawOverlays(this)) {
-                    Log.d("xujy3", "denied");
                 } else {
                     Intent intent = new Intent(MainActivity.this,  ReactNativeActivity.class);
                     startActivity(intent);
