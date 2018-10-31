@@ -14,14 +14,17 @@ public class ReactNativeActivity extends AppCompatActivity implements DefaultHar
     private ReactRootView mReactRootView;
     private ReactInstanceManager mReactInstanceManager;
 
+    private String bundleName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        bundleName = getIntent().getStringExtra("bundleName");
         mReactRootView = new ReactRootView(this);
         mReactInstanceManager = ReactInstanceManager.builder()
                 .setApplication(getApplication())
-                .setBundleAssetName("index.android.bundle")
+                .setBundleAssetName(bundleName+".bundle")
                 .setJSMainModulePath("index")
                 .addPackage(new MainReactPackage())
                 .setUseDeveloperSupport(false)
@@ -29,7 +32,7 @@ public class ReactNativeActivity extends AppCompatActivity implements DefaultHar
                 .build();
         // 注意这里的MyReactNativeApp必须对应“index.js”中的
         // “AppRegistry.registerComponent()”的第一个参数
-        mReactRootView.startReactApplication(mReactInstanceManager, "AwesomeProject", null);
+        mReactRootView.startReactApplication(mReactInstanceManager, bundleName, null);
 
         setContentView(mReactRootView);
     }

@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         findViewById(R.id.btn_to_react_native).setOnClickListener(this);
+        findViewById(R.id.btn_to_react_nativeB).setOnClickListener(this);
     }
 
     @Override
@@ -30,8 +31,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 Uri.parse("package:" + getPackageName()));
                         startActivityForResult(intent, OVERLAY_PERMISSION_REQ_CODE);
                     } else {
-                        Intent intent = new Intent(MainActivity.this,  ReactNativeActivity.class);
-                        startActivity(intent);
+                        startReactNativeActivityWithBundleName("AwesomeProject");
+                    }
+                }
+                break;
+            case R.id.btn_to_react_nativeB:
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (!Settings.canDrawOverlays(this)) {
+                        Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                                Uri.parse("package:" + getPackageName()));
+                        startActivityForResult(intent, OVERLAY_PERMISSION_REQ_CODE);
+                    } else {
+                        startReactNativeActivityWithBundleName("issuesB");
                     }
                 }
                 break;
@@ -49,5 +60,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
         }
+    }
+
+    private void startReactNativeActivityWithBundleName(String bundleName){
+        Intent intent = new Intent(MainActivity.this,  ReactNativeActivity.class);
+        intent.putExtra("bundleName",bundleName);
+        startActivity(intent);
     }
 }
